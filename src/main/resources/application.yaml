@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: remittance
+  datasource:
+    # In-memory: every start is a fresh database.
+    url: jdbc:h2:mem:remittance;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  jpa:
+    open-in-view: false
+    hibernate:
+      # schema.sql is the only source of the schema; Hibernate only checks that entities match it.
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  jackson:
+    serialization:
+      indent-output: true
+    deserialization:
+      # The create request is "a minimum, not a closed list": extra fields are ignored.
+      fail-on-unknown-properties: false
+
+logging:
+  level:
+    com.finshot.remittance: INFO
